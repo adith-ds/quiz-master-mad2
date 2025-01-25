@@ -22,7 +22,7 @@ export default {
         <router-link class="nav-link" to='/register'>Register!</router-link>
         </li>
       </ul>
-      <button type="button" class="btn btn-outline-danger btn-primary ms-auto" @click="$store.commit('logout')">Logout</button>
+      <button v-if="this.$store.state.islogged" type="button" class="btn btn-danger ms-auto" @click="$store.commit('logout')" @click="this.$router.push('/')">Logout</button>
     </div>
     </div>
     </nav>

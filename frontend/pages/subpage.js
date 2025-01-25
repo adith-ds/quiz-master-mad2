@@ -21,7 +21,7 @@ export default {
     `,
     data() {
         return {
-            chapters : null
+            chapters : null,
         }
     },
     async mounted() {

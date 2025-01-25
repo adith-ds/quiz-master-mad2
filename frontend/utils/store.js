@@ -36,6 +36,7 @@ const store = createStore({
             state.islogged = false;
             state.user_id = null;
             localStorage.removeItem('user');
+            
         }
         
 
