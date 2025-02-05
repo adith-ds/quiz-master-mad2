@@ -28,7 +28,28 @@ def login():
     
     return jsonify({'message' : 'wrong password'}), 400
 
+@app.route('/adminlogin', methods=['POST'])
+def adminlogin():
+    data = request.get_json()
 
+    email = data.get('email')
+    password = data.get('password')
+
+    if not email or not password:
+        return jsonify({"message" : "no email or password"}), 404
+    
+    user = datastore.find_user(email = email)
+
+    if not user:
+        return jsonify({"message" : "invalid email"}), 404
+    
+    if user.roles[0].name != 'admin':
+        return jsonify({"message" : "admin only, please use main login"}), 401
+    
+    if verify_password(password, user.password):
+        return jsonify({'token' : user.get_auth_token(), 'email' : user.email, 'role' : user.roles[0].name, 'id' : user.id})
+    
+    return jsonify({'message' : 'wrong password'}), 400
 
 @app.route('/register', methods=['POST'])
 def register():

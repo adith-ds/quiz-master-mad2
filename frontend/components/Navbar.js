@@ -13,13 +13,22 @@ export default {
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-        <router-link class="nav-link" to='/'>Home</router-link>
+        <router-link v-if="!this.$store.state.islogged" class="nav-link" to='/'>Home</router-link>
         </li>
         <li class="nav-item">
-        <router-link class="nav-link" to='/login'>Login</router-link>
+        <router-link v-if="!this.$store.state.islogged" class="nav-link" to='/login'>Login</router-link>
         </li>
         <li class="nav-item">
-        <router-link class="nav-link" to='/register'>Register!</router-link>
+        <router-link v-if="!this.$store.state.islogged" class="nav-link" to='/register'>Register!</router-link>
+        </li>
+        <li class="nav-item">
+        <router-link v-if="this.$store.state.islogged && this.$store.state.role==='admin'" class="nav-link" to='/admin/dashboard'>Dashboard</router-link>
+        </li>
+        <li class="nav-item">
+        <router-link v-if="this.$store.state.islogged && this.$store.state.role==='admin'" class="nav-link" to='/admin/subjects'>Subjects</router-link>
+        </li>
+        <li class="nav-item">
+        <router-link v-if="this.$store.state.islogged && this.$store.state.role==='admin'" class="nav-link" to='/admin/users'>Users</router-link>
         </li>
       </ul>
       <button v-if="this.$store.state.islogged" type="button" class="btn btn-danger ms-auto" @click="$store.commit('logout')" @click="this.$router.push('/')">Logout</button>

@@ -1,15 +1,17 @@
+import Home from "../pages/home.js"
 import loginpage from "../pages/login.js"
 import registerpage from "../pages/register.js"
 import mainpage from "../pages/mainpage.js"
 import subpage from "../pages/subpage.js"
+import adminlogin from "../pages/adminlogin.js"
+import dashboard from "../pages/dashboard.js"
+import subjects from "../pages/subjects.js"
+import subjects from "../pages/subjects.js"
+
 import store from "./store.js";
 
 const { createRouter, createWebHistory } = VueRouter;
 
-
-const Home = {
-    template : `<h1> testing ts out </h1>`
-}
 
 
 const routes = [
@@ -19,7 +21,15 @@ const routes = [
     {path : '/main', component : mainpage, meta : {reqLogin : true, role : 'user'}},
     {path : '/subject/:id', props : true, component : subpage, meta : {reqLogin : true, role : 'user'}},
     {path : '/chapter/:id', props : true, component : Home, meta : {reqLogin : true, role : 'user'}},
-
+    {path : '/secretlogin', component : adminlogin},
+    {path : '/admin', meta : {reqLogin : true, role : 'admin'}, children : [
+        {path : 'dashboard', component : dashboard},
+        {path : 'subjects', component : subjects},
+        {path : 'createsub', component : createsub},
+        {path : 'chapters'},
+        {path : 'quizzes'},
+        {path : 'users'}
+    ]}
 ]
 
 const router = createRouter({
