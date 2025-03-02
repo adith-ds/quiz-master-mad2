@@ -6,7 +6,12 @@ import subpage from "../pages/subpage.js"
 import adminlogin from "../pages/adminlogin.js"
 import dashboard from "../pages/dashboard.js"
 import subjects from "../pages/subjects.js"
-import subjects from "../pages/subjects.js"
+import createsub from "../pages/createsub.js"
+import subinfo from "../pages/subjectinfo.js"
+import createchap from "../pages/createchap.js"
+import chapinfo from "../pages/chapinfo.js"
+import createquiz from "../pages/createquiz.js"
+
 
 import store from "./store.js";
 
@@ -26,6 +31,10 @@ const routes = [
         {path : 'dashboard', component : dashboard},
         {path : 'subjects', component : subjects},
         {path : 'createsub', component : createsub},
+        {path : 'subject/:id', props : true, component : subinfo},
+        {path : 'createchap/:id', props : true, component : createchap},
+        {path : 'chapter/:id', props : true, component : chapinfo},
+        {path : 'createquiz/:id', props : true, component : createquiz},
         {path : 'chapters'},
         {path : 'quizzes'},
         {path : 'users'}

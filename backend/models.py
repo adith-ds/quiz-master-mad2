@@ -37,7 +37,7 @@ class UserRoles(db.Model):
 class Subject(db.Model):
     __tablename__ = 'subject'
     id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String, nullable  = False)
+    name = db.Column(db.String, nullable  = False, unique=True)
     desc = db.Column(db.Text, nullable  = False)
     chapters = db.relationship('Chapter', backref=db.backref('subject', lazy=True))
 
@@ -46,7 +46,7 @@ class Subject(db.Model):
 class Chapter(db.Model):
     __tablename__ = 'chapter'
     id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String, nullable  = False)
+    name = db.Column(db.String, nullable  = False, unique=True)
     desc = db.Column(db.Text, nullable  = False)
     s_id = db.Column(db.Integer, db.ForeignKey('subject.id'))
     quizzes = db.relationship('Quiz', backref=db.backref('chapter', lazy=True))
@@ -55,6 +55,7 @@ class Chapter(db.Model):
 class Quiz(db.Model):
     __tablename__ = 'quiz'
     id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String, unique=True)
     date = db.Column(db.DateTime, default = datetime.datetime.now())
     time = db.Column(db.String)
     desc = db.Column(db.Text, nullable  = False)

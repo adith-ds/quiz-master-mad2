@@ -29,11 +29,11 @@ export default {
                 this.subjects = subs
             }
             else {
-                console.log("bruh")
+                alert("please try again")
             }
         }
         catch (err) {
-            console.log("fail")
+            alert("network error, please try again later")
         }
     },
     components : {
