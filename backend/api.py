@@ -37,7 +37,18 @@ class SubjectAPI(Resource):
             db.session.rollback()
             return {"message" : "failed to add subject"}, 400
     
-api.add_resource(SubjectAPI, '/subjects')
+    @auth_required('token')
+    def delete(self, id):
+        try:
+            sub = Subject.query.get(id)
+            db.session.delete(sub)
+            db.session.commit()
+            return {"message" : "subject deleted successfully"}, 200
+        except:
+            db.session.rollback()
+            return {"message" : "could not delete subject"}, 400
+    
+api.add_resource(SubjectAPI, '/subjects', '/subjects/<int:id>')
 
 
 chapterfields = {
@@ -72,8 +83,19 @@ class ChapterAPI(Resource):
         except:
             db.session.rollback()
             return {"message" : "failed to add chapter"}, 400
-
     
+    @auth_required('token')
+    def delete(self, id):
+        try:
+            chap = Chapter.query.get(id)
+            db.session.delete(chap)
+            db.session.commit()
+            return {"message" : "chapter deleted successfully"}, 200
+        except:
+            db.session.rollback()
+            return {"message" : "could not delete chapter"}, 400
+
+
 
 
 api.add_resource(ChapterAPI, '/chapters/<int:id>')
@@ -118,7 +140,15 @@ class QuizAPI(Resource):
 
 api.add_resource(QuizAPI, '/quizzes/<int:id>')
 
-
+questionfields = {
+    'id' : fields.Integer,
+    'statement' : fields.String,
+    'op1' : fields.String,
+    'op2' : fields.String,
+    'op3' : fields.String,
+    'op4' : fields.String,
+    'ans' : fields.String,
+}
 
 class QuestionAPI(Resource):
 
@@ -139,6 +169,14 @@ class QuestionAPI(Resource):
         except:
             db.session.rollback()
             return {"message" : "failed to add question"}, 400
+    
+    @auth_required('token')
+    def get(self, id):
+        quiz = Quiz.query.get(id)
+        if quiz:
+            return marshal(quiz.questions, questionfields)
+        return {"message" : "no questions added"}, 400
+
         
 
 

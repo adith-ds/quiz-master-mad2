@@ -12,6 +12,8 @@ export default {
     <h1 class="card-title" @click="this.$router.push('/admin/chapter/' + chap.id)">[[ chap.name ]]</h1>
     <p class="card-text">[[ chap.desc ]]</p>
     <br>
+    <button class="btn btn-danger ms-auto" @click="deletechap(chap.id)">Delete</button>
+    <br>
     </div>
     </div>
     <br>
@@ -70,6 +72,30 @@ export default {
         }
 
     },
+    methods : {
+        async deletechap(deleted_id) {
+            try {
+                const data = await fetch(`${origin}/api/chapters/${deleted_id}`, {
+                    method : 'DELETE',
+                    headers: {'Content-Type' : 'application/json', 'auth-token' : this.$store.state.auth_token}
+                });
+                if(data.ok) {
+                    const res = await data.json()
+                    this.chaps = this.chaps.filter(chap => chap.id !== deleted_id)
+                    console.log(res)
+                }
+                else {
+                    if(data.status == 404) {
+                        console.log(await data.json())
+                    }
+                }
+            }
+            catch (err) {
+                alert("network error, please try again later")
+            }
+
+        }
+    }
 
 
 }

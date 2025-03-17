@@ -37,7 +37,7 @@ export default {
     </div>
 
     <div id="questionstuff" v-show="isQuiz">
-    <AddQues :id="this.quizid" :name="this.name"></AddQues>
+    <AddQues :chid="this.id" :id="this.quizid" :name="this.name"></AddQues>
     </div>
 
     </div>

@@ -1,16 +1,20 @@
+import Quizpopup from "./../components/quizpopup.js"
+
 export default {
     props : ['id'],
     template : `
     <div class="container" id="central">
     <h1 v-if="chap" class="display-1">[[ chap.name ]]</h1>
-    <button class="btn btn-warning" @click="this.$router.push('/admin/createquiz/'+this.id)">Create new quiz</button>
+    <button class="btn btn-warning" @click="this.$router.push('/admin/createquiz/'+chap.id)">Create new quiz</button>
     <br>
     <div v-if="quizs">
     <div v-for="quiz in quizs" >
     <br>
-    <div class="jumbotron card">
+    <div class="jumbotron card overflow-hidden">
     <h1 class="card-title">[[ quiz.name ]]</h1>
     <p class="card-text">[[ quiz.desc ]]</p>
+    <br>
+    <Quizpopup :quizid="quiz.id"></Quizpopup>
     <br>
     </div>
     </div>
@@ -70,6 +74,9 @@ export default {
         }
 
     },
+    components : {
+        Quizpopup
+    }
 
 
 }

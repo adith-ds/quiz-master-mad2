@@ -39,7 +39,7 @@ class Subject(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String, nullable  = False, unique=True)
     desc = db.Column(db.Text, nullable  = False)
-    chapters = db.relationship('Chapter', backref=db.backref('subject', lazy=True))
+    chapters = db.relationship('Chapter', backref=db.backref('subject', lazy=True), cascade="all, delete", passive_deletes=True)
 
 
 
@@ -48,8 +48,8 @@ class Chapter(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String, nullable  = False, unique=True)
     desc = db.Column(db.Text, nullable  = False)
-    s_id = db.Column(db.Integer, db.ForeignKey('subject.id'))
-    quizzes = db.relationship('Quiz', backref=db.backref('chapter', lazy=True))
+    s_id = db.Column(db.Integer, db.ForeignKey('subject.id', ondelete="CASCADE"))
+    quizzes = db.relationship('Quiz', backref=db.backref('chapter', lazy=True), cascade=None)
 
 
 class Quiz(db.Model):
@@ -59,7 +59,7 @@ class Quiz(db.Model):
     date = db.Column(db.DateTime, default = datetime.datetime.now())
     time = db.Column(db.String)
     desc = db.Column(db.Text, nullable  = False)
-    c_id = db.Column(db.Integer, db.ForeignKey('chapter.id'))
+    c_id = db.Column(db.Integer, db.ForeignKey('chapter.id', ondelete="SET NULL"), nullable=True)
     questions = db.relationship('Question', backref=db.backref('quiz', lazy=True))
 
 
@@ -78,6 +78,7 @@ class Question(db.Model):
 class Scores(db.Model):
     __tablename__ = 'scores'
     id = db.Column(db.Integer, primary_key = True)
+    q_name = db.Column(db.String, db.ForeignKey('quiz.name'))
     q_id = db.Column(db.Integer, db.ForeignKey('quiz.id'))
     u_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     attempt_time = db.Column(db.String)

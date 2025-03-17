@@ -1,5 +1,5 @@
 export default {
-    props : ['id', 'name'],
+    props : ['chid', 'id', 'name'],
     template : `
     <div>
     <div class="card">
@@ -51,6 +51,7 @@ export default {
     `,
     data() {
         return {
+            isq : false,
             statement : null,
             op1 : null,
             op2 : null,
@@ -85,6 +86,7 @@ export default {
                         this.op3 = ""
                         this.op4 = ""
                         this.ans = null
+                        this.isq = true
                     }
                     else {
                         const data = await res.json();
@@ -102,7 +104,12 @@ export default {
             }
         },
         finishQs() {
-            this.$router.push(`/admin/chapter/${this.id}`)
+            if(this.isq) {
+                this.$router.push(`/admin/chapter/${this.chid}`)
+            }
+            else {
+                alert("please add at least one question")
+            }
         }
     }
 
