@@ -28,6 +28,13 @@ export default {
                 </div>
             </div>
             <br>
+            <div class="row">
+            <div class="col"></div>
+            <div class="col">
+            <button type="button" class="btn btn-danger ms-auto" @click="deleteques(questions[currentIndex].id)">Delete question</button>
+            </div>
+            </div>
+            <br>
 
 
             <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 500px; margin: auto; position: relative;">
@@ -140,6 +147,33 @@ export default {
         this.currentIndex--;
       }
     },
+    async deleteques(deleted_id) {
+        if (this.questions.length == 1) {
+            alert("quiz needs at least one question");
+        }
+        else {
+            try {
+                const data = await fetch(`${origin}/api/questions/${deleted_id}`, {
+                    method : 'DELETE',
+                    headers: {'Content-Type' : 'application/json', 'auth-token' : this.$store.state.auth_token}
+                });
+                if(data.ok) {
+                    const res = await data.json()
+                    console.log(res)
+                    this.showPopup = false;
+                }
+                else {
+                    if(data.status == 404) {
+                        console.log(await data.json())
+                    }
+                }
+            }
+            catch (err) {
+                alert("network error, please try again later")
+            }
+        }
+
+    }
   },
 }
 

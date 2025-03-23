@@ -78,9 +78,10 @@ class Question(db.Model):
 class Scores(db.Model):
     __tablename__ = 'scores'
     id = db.Column(db.Integer, primary_key = True)
-    q_name = db.Column(db.String, db.ForeignKey('quiz.name'))
-    q_id = db.Column(db.Integer, db.ForeignKey('quiz.id'))
+    q_name = db.Column(db.String)
+    q_id = db.Column(db.Integer)
     u_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     attempt_time = db.Column(db.String)
+    obtained_score = db.Column(db.Integer)
     total_score = db.Column(db.Integer)
 

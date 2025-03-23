@@ -16,6 +16,7 @@ export default {
     <br>
     <Quizpopup :quizid="quiz.id"></Quizpopup>
     <br>
+    <button class="btn btn-danger ms-auto" @click="deletequiz(quiz.id)">Delete</button>
     </div>
     </div>
     <br>
@@ -71,6 +72,31 @@ export default {
         }
         catch (err) {
             alert("network error, please try again later")
+        }
+
+    },
+    methods : {
+        async deletequiz(deleted_id) {
+            try {
+                const data = await fetch(`${origin}/api/quizzes/${deleted_id}`, {
+                    method : 'DELETE',
+                    headers: {'Content-Type' : 'application/json', 'auth-token' : this.$store.state.auth_token}
+                });
+                if(data.ok) {
+                    const res = await data.json()
+                    this.quizs = this.quizs.filter(quiz => quiz.id !== deleted_id)
+                    console.log(res)
+                }
+                else {
+                    if(data.status == 404) {
+                        console.log(await data.json())
+                    }
+                }
+            }
+            catch (err) {
+                alert("network error, please try again later")
+            }
+
         }
 
     },

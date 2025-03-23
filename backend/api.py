@@ -133,12 +133,25 @@ class QuizAPI(Resource):
         except:
             db.session.rollback()
             return {"message" : "failed to add quiz"}, 400
+    
+    @auth_required('token')
+    def delete(self, id):
+        try:
+            quiz = Quiz.query.get(id)
+            db.session.delete(quiz)
+            db.session.commit()
+            return {"message" : "quiz deleted successfully"}, 200
+        except:
+            db.session.rollback()
+            return {"message" : "could not delete quiz"}, 400
+
 
 
     
 
 
 api.add_resource(QuizAPI, '/quizzes/<int:id>')
+
 
 questionfields = {
     'id' : fields.Integer,
@@ -176,16 +189,74 @@ class QuestionAPI(Resource):
         if quiz:
             return marshal(quiz.questions, questionfields)
         return {"message" : "no questions added"}, 400
+    
+    @auth_required('token')
+    def delete(self, id):
+        try:
+            ques = Question.query.get(id)
+            db.session.delete(ques)
+            db.session.commit()
+            return {"message" : "question deleted successfully"}, 200
+        except:
+            db.session.rollback()
+            return {"message" : "could not delete question"}, 400
 
         
 
 
 api.add_resource(QuestionAPI, '/questions/<int:id>') 
 
+scorefields = {
+    'id' : fields.Integer,
+    'q_name' : fields.String,
+    'q_id' : fields.String,
+    'u_id' : fields.String,
+    'attempt_time' : fields.Integer,
+    'obtained_score' : fields.Integer,
+    'total_score' : fields.Integer,
+}
+
+class ScoresAPI(Resource):
+    @auth_required('token')
+    def get(self, id):
+        pass
+
+    @auth_required('token')
+    def post(self):
+        data = request.get_json()
+        q_name = data.get('q_name')
+        q_id = data.get('q_id')
+        u_id = data.get('u_id')
+        attempt_time = data.get('attempt_time')
+        obtained_score = data.get('obtained_score')
+        total_score = data.get('total_score')
+        oldscore = Scores.query.filter_by(u_id = u_id, q_id = q_id).first()
+        if oldscore:
+            if oldscore.obtained_score >= obtained_score:
+                return {"message" : "prior attempt is better"}, 200
+            else:
+                oldscore.attempt_time = attempt_time
+                oldscore.obtained_score = obtained_score
+                oldscore.total_score = total_score
+                db.session.commit()
+                return {"message" : "updated score"}, 200
+        try:
+            score = Scores(q_name = q_name, q_id = q_id, u_id = u_id, attempt_time = attempt_time, obtained_score = obtained_score, total_score = total_score)
+            db.session.add(score)
+            db.session.commit()
+            return {"message" : "score added successfully"}, 200
+        except:
+            db.session.rollback()
+            return {"message" : "failed to add score"}, 400
+        
+
+
+
+api.add_resource(ScoresAPI, '/scores') 
 
 
 class ByIdAPI(Resource):
-
+    @auth_required('token')
     def get(self, id):
         type = request.args.get('type')
         if type == 'subject':
@@ -198,6 +269,18 @@ class ByIdAPI(Resource):
             if not chapter:
                 return {"message" : "chapter not found"}, 404
             return marshal(chapter, chapterfields)
+        if type == 'quiz':
+            quiz = Quiz.query.filter_by(id=id).one()
+            if not quiz:
+                return {"message" : "quiz not found"}, 404
+            return marshal(quiz, quizfields)
+        if type == 'score':
+            u_id = request.args.get('u_id')
+            q_id = request.args.get('q_id')
+            score = Scores.query.filter_by(u_id = u_id, q_id = q_id).first()
+            if not score:
+                return {"message" : "quiz not attempted yet"}, 404
+            return marshal(score, scorefields)
         return {"message" : "please provide content type"}
     
 api.add_resource(ByIdAPI, '/byid/<int:id>')

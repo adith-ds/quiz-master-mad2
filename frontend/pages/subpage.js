@@ -1,7 +1,7 @@
 export default {
     props : ['id'],
     template : `
-    <div class="container" id="central">
+    <div class="container" id="central"> 
     <h1>Chapters</h1>
     <div id="passwordHelpBlock" class="form-text">
     Click on a heading to view related quizzes
