@@ -25,6 +25,9 @@ export default {
         <router-link v-if="this.$store.state.islogged && this.$store.state.role==='user'" class="nav-link" to='/main'>Subjects</router-link>
         </li>
         <li class="nav-item">
+        <router-link v-if="this.$store.state.islogged && this.$store.state.role==='user'" class="nav-link" to='/stats'>Stats</router-link>
+        </li>
+        <li class="nav-item">
         <router-link v-if="this.$store.state.islogged && this.$store.state.role==='admin'" class="nav-link" to='/admin/dashboard'>Dashboard</router-link>
         </li>
         <li class="nav-item">

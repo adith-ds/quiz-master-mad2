@@ -1,12 +1,19 @@
 from flask import current_app as app, jsonify, render_template,  request, send_file
 from flask_security import auth_required, verify_password, hash_password
 from backend.models import User, db
+import datetime
 
 datastore = app.security.datastore
+cache = app.cache
 
 @app.route('/', methods=['GET'])
 def home():
     return render_template('index.html')
+
+@app.route('/cache', methods=['GET'])
+@cache.cached(timeout = 10)
+def cachepip():
+    return { "time" : datetime.datetime.now()}
 
 @app.route('/login', methods=['POST'])
 def login():

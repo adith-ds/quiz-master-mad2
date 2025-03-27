@@ -69,9 +69,10 @@ export default {
                     console.log("we exist")
                     const data = await res.json()
                     console.log(data)
+                    this.$router.push('/login')
                 }
                 else {
-                    console.log("bruh")
+                    console.log(await res.json())
                 }
             }
             catch (err) {

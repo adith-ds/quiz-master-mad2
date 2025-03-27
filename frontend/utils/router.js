@@ -6,13 +6,14 @@ import subpage from "../pages/subpage.js"
 import chappage from "../pages/chappage.js"
 import quizattempt from "../pages/quizattempt.js"
 import adminlogin from "../pages/adminlogin.js"
-import dashboard from "../pages/dashboard.js"
 import subjects from "../pages/subjects.js"
 import createsub from "../pages/createsub.js"
 import subinfo from "../pages/subjectinfo.js"
 import createchap from "../pages/createchap.js"
 import chapinfo from "../pages/chapinfo.js"
 import createquiz from "../pages/createquiz.js"
+import statistics from "../pages/statistics.js"
+import userstats from "../pages/userstats.js"
 
 
 import store from "./store.js";
@@ -26,12 +27,13 @@ const routes = [
     {path : '/login', component : loginpage},
     {path : '/register', component : registerpage},
     {path : '/main', component : mainpage, meta : {reqLogin : true, role : 'user'}},
+    {path : '/stats', component : userstats, meta : {reqLogin : true, role : 'user'}},
     {path : '/subject/:id', props : true, component : subpage, meta : {reqLogin : true, role : 'user'}},
     {path : '/chapter/:id', props : true, component : chappage, meta : {reqLogin : true, role : 'user'}},
     {path : '/attempt/:quizid', props : true, component : quizattempt, meta : {reqLogin : true, role : 'user'}},
     {path : '/secretlogin', component : adminlogin},
     {path : '/admin', meta : {reqLogin : true, role : 'admin'}, children : [
-        {path : 'dashboard', component : dashboard},
+        {path : 'dashboard', component : statistics},
         {path : 'subjects', component : subjects},
         {path : 'createsub', component : createsub},
         {path : 'subject/:id', props : true, component : subinfo},

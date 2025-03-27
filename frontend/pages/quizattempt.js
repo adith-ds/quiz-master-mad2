@@ -8,7 +8,7 @@ export default {
     <div v-if="step === 'start'">
         <h1>[[ quiz.name ]]</h1>
         <p>[[ quiz.desc ]]</p>
-        <p v-if="previousScore !== null">Previous Attempt: [[ previousScore.obtained_score ]] / [[ previousScore.total_score ]]</p>
+        <p v-if="previousScore !== null">Previous Best Attempt: [[ previousScore.obtained_score ]] / [[ previousScore.total_score ]]</p>
         <button class="btn btn-primary" @click="startQuiz">Start Quiz</button>
         <button class="btn btn-danger" @click="$router.push('/main')">Go to Home</button>
     </div>
@@ -41,7 +41,7 @@ export default {
     `,
     data() {
         return {
-
+            maxtime : 0,
             step : 'start',
             quiz : null,
             previousScore : null,
@@ -122,7 +122,9 @@ export default {
         startQuiz() {
             this.step = 'quiz';
             const [minutes, seconds] = this.quiz.time.split(":").map(Number);
-            this.timeLeft = minutes * 60 + seconds; 
+
+            this.maxtime = minutes * 60 + seconds; 
+            this.timeLeft = this.maxtime;
             this.timer = setInterval(() => {
                 if (this.timeLeft > 0) {
                     this.timeLeft--;
@@ -160,7 +162,7 @@ export default {
                         'q_name' : this.quiz.name,
                         'q_id' : this.quizid,
                         'u_id' : this.$store.state.user_id,
-                        'attempt_time' : this.timeLeft,
+                        'attempt_time' : this.maxtime-this.timeLeft,
                         'obtained_score' : this.score,
                         'total_score' : this.totalQuestions
                     })

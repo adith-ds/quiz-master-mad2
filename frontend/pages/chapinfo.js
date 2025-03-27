@@ -16,7 +16,7 @@ export default {
     <br>
     <Quizpopup :quizid="quiz.id"></Quizpopup>
     <br>
-    <button class="btn btn-danger ms-auto" @click="deletequiz(quiz.id)">Delete</button>
+    <button class="btn btn-danger ms-auto" @click="deletequiz(quiz.id)">Delete quiz</button>
     </div>
     </div>
     <br>
