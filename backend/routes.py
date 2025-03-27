@@ -1,7 +1,8 @@
 from flask import current_app as app, jsonify, render_template,  request, send_file
 from flask_security import auth_required, verify_password, hash_password
 from backend.models import User, db
-import datetime
+from backend.celery.tasks import create_csv
+from celery.result import AsyncResult
 
 datastore = app.security.datastore
 cache = app.cache
@@ -10,10 +11,29 @@ cache = app.cache
 def home():
     return render_template('index.html')
 
-@app.route('/cache', methods=['GET'])
-@cache.cached(timeout = 10)
-def cachepip():
-    return { "time" : datetime.datetime.now()}
+
+@app.route('/get-celery-data/<id>', methods=['GET'])
+def getdata(id):
+    result = AsyncResult(id)
+    if result.ready():
+        return {'result' : result.result}, 200
+    else:
+        return {'message' : 'task not complete'}, 405
+
+@app.route('/make-csv/<uid>', methods=['GET'])
+def make_csv(uid):
+    task = create_csv.delay(uid)
+    return{"task_id" : task.id}, 200
+
+@app.route('/get-csv/<id>', methods=['GET'])
+def get_csv(id):
+    result = AsyncResult(id)
+    if result.ready():
+        return send_file(result.result), 200
+    else:
+        return {'message' : 'task not complete'}, 405
+
+
 
 @app.route('/login', methods=['POST'])
 def login():

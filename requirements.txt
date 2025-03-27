@@ -13,6 +13,7 @@ dnspython==2.7.0
 email_validator==2.2.0
 Flask==3.1.0
 Flask-Caching==2.3.1
+Flask-Excel==0.0.7
 Flask-Login==0.6.3
 Flask-Principal==0.4.0
 Flask-RESTful==0.3.10
@@ -25,14 +26,19 @@ importlib_resources==6.4.5
 itsdangerous==2.2.0
 Jinja2==3.1.5
 kombu==5.5.1
+lml==0.2.0
 MarkupSafe==3.0.2
 passlib==1.7.4
 prompt_toolkit==3.0.50
+pyexcel==0.7.2
+pyexcel-io==0.6.7
+pyexcel-webio==0.1.4
 python-dateutil==2.9.0.post0
 pytz==2024.2
 redis==5.2.1
 six==1.17.0
 SQLAlchemy==2.0.36
+texttable==1.7.0
 typing_extensions==4.12.2
 tzdata==2025.1
 vine==5.1.0
