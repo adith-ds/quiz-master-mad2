@@ -36,6 +36,8 @@ app = createApp()
 
 celery_app = celery_init_app(app)
 
+import backend.celery.celery_schedule
+
 import backend.initial_data
 import backend.routes
 
@@ -44,3 +46,15 @@ import backend.routes
 
 if __name__ == '__main__':
     app.run()
+
+# running the app
+# python3 app.py
+
+# starting celery 
+# celery -A app:celery_app worker -l INFO
+
+# starting celery beat 
+# celery -A app:celery_app beat -l INFO
+
+# starting mailhog
+# ~/go/bin/MailHog

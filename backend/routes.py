@@ -11,19 +11,12 @@ cache = app.cache
 def home():
     return render_template('index.html')
 
-
-@app.route('/get-celery-data/<id>', methods=['GET'])
-def getdata(id):
-    result = AsyncResult(id)
-    if result.ready():
-        return {'result' : result.result}, 200
-    else:
-        return {'message' : 'task not complete'}, 405
-
+@auth_required('token')
 @app.route('/make-csv/<uid>', methods=['GET'])
 def make_csv(uid):
     task = create_csv.delay(uid)
     return{"task_id" : task.id}, 200
+
 
 @app.route('/get-csv/<id>', methods=['GET'])
 def get_csv(id):

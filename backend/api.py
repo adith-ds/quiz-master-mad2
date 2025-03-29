@@ -358,3 +358,14 @@ class UserStats(Resource):
         }, 200
     
 api.add_resource(UserStats, "/stats/<int:id>")
+
+class Userlist(Resource):
+    @auth_required('token')
+    @cache.cached(timeout = 30)
+    def get(self):
+        users = User.query.filter(User.id != 1).all()
+        userlist = [{"username":u.username, "email":u.email, "dob":u.dob} for u in users]
+        return userlist, 200
+    
+
+api.add_resource(Userlist, "/userlist")

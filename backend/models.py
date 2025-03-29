@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import func
 from flask_security import UserMixin, RoleMixin
 import datetime
 
@@ -81,6 +82,7 @@ class Scores(db.Model):
     q_name = db.Column(db.String)
     q_id = db.Column(db.Integer)
     u_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    attempt_date = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
     attempt_time = db.Column(db.String)
     obtained_score = db.Column(db.Integer)
     total_score = db.Column(db.Integer)

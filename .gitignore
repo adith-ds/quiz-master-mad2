@@ -1,3 +1,6 @@
 .venv
 __pycache__/
 backend/__pycache__/
+backend/celery/__pycache__
+instance/mydata.sqlite3
+celerybeat-schedule

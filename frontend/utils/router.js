@@ -14,6 +14,7 @@ import chapinfo from "../pages/chapinfo.js"
 import createquiz from "../pages/createquiz.js"
 import statistics from "../pages/statistics.js"
 import userstats from "../pages/userstats.js"
+import userinfo from "../pages/userinfo.js"
 
 
 import store from "./store.js";
@@ -40,9 +41,7 @@ const routes = [
         {path : 'createchap/:id', props : true, component : createchap},
         {path : 'chapter/:id', props : true, component : chapinfo},
         {path : 'createquiz/:id', props : true, component : createquiz},
-        {path : 'chapters'},
-        {path : 'quizzes'},
-        {path : 'users'}
+        {path : 'users', component : userinfo},
     ]}
 ]
 

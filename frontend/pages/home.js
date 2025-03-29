@@ -5,7 +5,7 @@ export default {
     <p class="lead">
     Dive into the world of interactive learning with quizzes tailored for every subject and chapter. Whether you're mastering a new concept or revisiting old ones, Quizzy ensures you stay on top of your game!  
     </p>
-    <p>
+    <div>
     <h4 class="display-4">Why Choose Quizzy?</h4>
     <ul>
     <li>Explore Multiple Subjects: From science to history, each subject is broken into chapters, and every chapter features quizzes designed to test and reinforce your knowledge.</li>
@@ -21,7 +21,7 @@ export default {
     <li>Track and Improve: Use our analytics tools and reports to monitor your growth over time. </li>
     </ol>
     <br>
-    </p>
+    </div>
     <h1 align="center">Start Quizzing Today!</h1>
     <br>
     <p class="text-end"><small><div @click="secretLogin">admin login</div></small></p>
