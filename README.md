@@ -1,6 +1,14 @@
 # quiz-master-mad2
 This is a simple quiz application for the MAD2 project
 
+# Virtual Environment
+## Creation
+python3 -m venv .venv
+## activation
+source .venv/bin/activate
+## deactivation 
+deactivate
+
 # Steps to use
 ## installing dependencies
 pip install -r requirements.txt
