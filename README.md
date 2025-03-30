@@ -32,10 +32,4 @@ celery -A app:celery_app beat -l INFO
 
 ## starting mailhog
 ~/go/bin/MailHog (must be installed on system)
- celery -A app:celery_app worker -l INFO
 
-## starting celery beat 
- celery -A app:celery_app beat -l INFO
-
-## starting mailhog
- ~/go/bin/MailHog (must be installed on system)
